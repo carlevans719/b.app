@@ -51,10 +51,13 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
   register (name: string = r('name'), ProviderCtor: IProviderStatic = r('ProviderCtor'), options: IRegisterOptions = {}) {
     const groupStore = this._getOrCreateGroupStore(options.groupName || this.__defaultGroupName)
 
-    const providerEntry = {
+    const providerEntry: IProviderEntry = {
       initialised: Boolean(options.initialise),
       Ctor: ProviderCtor,
       config: options.config || {}
+    }
+    if (options.initialise) {
+      providerEntry.instance = new ProviderCtor(this.__application, providerEntry.config)
     }
 
     return groupStore.set(name, providerEntry)

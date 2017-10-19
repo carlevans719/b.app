@@ -22,7 +22,7 @@ class Application implements App.IApplication {
           ProviderCtor,
           {
             groupName: providerType,
-            config: types.isSpecialistTuple(entry) ? entry[1] : {}
+            ...(types.isSpecialistTuple(entry) ? entry[1] : {})
           }
         )
       } catch (ex) {
@@ -50,9 +50,10 @@ class Application implements App.IApplication {
       }
 
       try {
+        // Manifest item is `key: {}`
         if (types.isSpecialistConfigOnly(providers)) {
           const ProviderCtor = require(`b.providers/${providerType}`)
-          this.providers.register(providerType, ProviderCtor, {config: providers})
+          this.providers.register(providerType, ProviderCtor, providers)
           continue
         } else {
           throw new InvalidParameterError('manifest', `Value for ${providerType} was an unknown format`)
