@@ -9,6 +9,7 @@
     "**/node_modules": true,
     "**/*.js.map": { "when": "$(basename)" },
     "**/*.js": { "when": "$(basename).ts" },
+    // hide all .d.ts files except those in /*/interfaces/
     "*.d.ts": true,
     "*/*.d.ts": true,
     "*/[^i][^n][^t][^e][^r][^f][^a][^c][^e][^s]*/*.d.ts": true,

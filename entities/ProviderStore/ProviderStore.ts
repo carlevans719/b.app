@@ -50,11 +50,28 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
     this._getOrCreateGroupStore(this.__defaultGroupName)
   }
 
+  /**
+   * Get the number of items stored across all groups
+   *
+   * @returns {number}
+   * @memberof ProviderStore
+   */
   get length () {
     let count = 0
     super._forEach((groupName, groupStore) => count += groupStore.length)
 
     return count
+  }
+
+  /**
+   * Get the default group name
+   *
+   * @readonly
+   * @returns {string}
+   * @memberof ProviderStore
+   */
+  get defaultGroupName () {
+    return this.__defaultGroupName
   }
 
   /**
@@ -88,7 +105,7 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
    * @memberof ProviderStore
    */
   get (name: string = r('name'), groupName: string = this.__defaultGroupName) {
-    const groupStore = super._get(groupName || name)
+    const groupStore = super._get(groupName)
     const providerEntry = groupStore.get(name)
 
     if (!providerEntry.initialised) {

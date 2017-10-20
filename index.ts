@@ -1,5 +1,5 @@
 import * as App from './common/interfaces/application'
-import { IProvider, IProviderStore } from './common/interfaces/provider'
+import { IProvider, IProviderStore, IRegisterOptions } from './common/interfaces/provider'
 import { IIndexable } from './common/interfaces/decorators'
 import { InvalidParameterError } from './common/errors/InvalidParameterError'
 import { ProviderStore } from './entities/ProviderStore/ProviderStore'
@@ -23,13 +23,15 @@ class Application implements App.IApplication {
   _processProviderManifest (manifest: App.IProviderManifestEntry = {}, resumeOnError = false) {
     const registerUnion = (providerType: string, entry: App.SpecialistUnion) => {
       try {
-        const ProviderCtor = require(`b.providers/${entry[0]}`)
+        let ProviderCtor = require(`b.providers/${entry[0]}`)
+        ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
+
         this.providers.register(
           entry[0],
-          'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor,
+          ProviderCtor,
           {
-            groupName: providerType,
-            ...(types.isSpecialistTuple(entry) ? entry[1] : {})
+            ...(types.isSpecialistTuple(entry) ? entry[1] : {}),
+            groupName: providerType
           }
         )
       } catch (ex) {
@@ -59,12 +61,17 @@ class Application implements App.IApplication {
       try {
         // Manifest item is `key: {}`
         if (types.isSpecialistConfigOnly(providers)) {
-          const ProviderCtor = require(`b.providers/${providerType}`)
-          this.providers.register(
-            providerType,
-            'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor,
-            providers
-          )
+          let ProviderCtor = require(`b.providers/${providerType}`)
+          ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
+          
+          const base: IRegisterOptions = {}
+          if (ProviderCtor.groupName) {
+            base.groupName = ProviderCtor.groupName
+          }
+
+          const providerConfig = Object.assign(base, providers)
+          this.providers.register(providerType, ProviderCtor, providerConfig)
+
           continue
         } else {
           throw new InvalidParameterError('manifest', `Value for ${providerType} was an unknown format`)
