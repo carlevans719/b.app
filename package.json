@@ -1,5 +1,5 @@
 {
-  "name": "b.app",
+  "name": "w.app",
   "version": "1.0.0",
   "description": "A javascript application core",
   "main": "dist/index",
@@ -12,9 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^8.0.45",
-    "b.providers": "1.0.0"
+    "w.providers": "1.0.0"
   },
   "devDependencies": {
+    "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   }
 }
