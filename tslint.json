@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-eslint-rules",
+    "tslint-config-standard"
+  ],
+  "rules": {
+    "semicolon": ["never"],
+    "quotemark": ["single"],
+    "space-before-function-paren": true,
+    "align": false,
+    "only-arrow-functions": [false],
+    "no-console": false,
+    "no-use-before-declare": false,
+    "object-literal-sort-keys": false,
+    "unified-signatures": false
+  }
+}
