@@ -25,11 +25,12 @@
   },
   "homepage": "https://github.com/webantic/w.app#readme",
   "dependencies": {
-    "@types/node": "^8.0.45",
-    "@webantic/w.providers": "^1.0.0"
+    "@types/node": "^8.0.46",
+    "@webantic/w.providers": "^1.0.3"
   },
   "devDependencies": {
-    "npm-github-release": "github:webantic/npm-github-release#02a905460b33dd68ecf6d9568bedef79a73f2d38",
+    "npm-github-release": "0.8.0",
+    "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "tslint-config-standard": "^6.0.1",
     "tslint-eslint-rules": "^4.1.1",
