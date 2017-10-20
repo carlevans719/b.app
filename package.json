@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "npm run build",
-    "release": "GITHUB_API_TOKEN=$(cat .gh_token) npm-github-release",
+    "release": "env $(cat .gh_token | xargs) npm-github-release",
     "build": "tsc -p .",
     "watch": "tsc -w -p ."
   },
