@@ -1,8 +1,9 @@
-import { required as r } from './common/decorators/parameters'
-import { InvalidParameterError } from './common/errors/InvalidParameterError'
 import * as App from './common/interfaces/application'
 import { IIndexable } from './common/interfaces/decorators'
 import { IProvider, IProviderStore, IRegisterOptions } from './common/interfaces/provider'
+
+import { required as r } from './common/decorators/parameters'
+import { InvalidParameterError } from './common/errors/InvalidParameterError'
 import * as types from './common/typeCheckers/application'
 import { ProviderStore } from './entities/ProviderStore/ProviderStore'
 
@@ -22,7 +23,7 @@ class Application implements App.IApplication {
   _processProviderManifest (manifest: App.IProviderManifestEntry = {}, resumeOnError = false) {
     const registerUnion = (providerType: string, entry: App.SpecialistUnion) => {
       try {
-        let ProviderCtor = require(`b.providers/entities/${entry[0]}`)
+        let ProviderCtor = require(`@webantic/w.providers/entities/${entry[0]}`)
         ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
 
         this.providers.register(
@@ -61,7 +62,7 @@ class Application implements App.IApplication {
         try {
           // Manifest item is `key: {}`
           if (types.isSpecialistConfigOnly(providers)) {
-            let ProviderCtor = require(`b.providers/entities/${providerType}`)
+            let ProviderCtor = require(`@webantic/w.providers/entities/${providerType}`)
             ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
 
             const base: IRegisterOptions = {}

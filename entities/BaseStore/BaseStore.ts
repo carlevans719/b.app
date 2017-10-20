@@ -7,6 +7,13 @@ import { required as r } from '../../common/decorators/parameters'
 import { StoreItemConflictError } from './errors/StoreItemConflictError'
 import { StoreItemNotFoundError } from './errors/StoreItemNotFoundError'
 
+/**
+ * A base store class to be extended
+ *
+ * @class BaseStore
+ * @implements {IBaseStore<T>}
+ * @template T
+ */
 class BaseStore <T> implements IBaseStore <T> {
   // tslint:disable-next-line:variable-name
   protected __identifier: string

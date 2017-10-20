@@ -6,7 +6,9 @@ interface IProviderStatic {
 }
 
 interface IProvider {
-  
+  __application: IApplication
+  __config: any
+  inject (...args: any[]) : void
 }
 
 interface IProviderEntry {

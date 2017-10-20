@@ -1,5 +1,5 @@
 {
-  "name": "w.app",
+  "name": "@webantic/w.app",
   "version": "1.0.0",
   "description": "A javascript application core",
   "main": "index",
@@ -8,8 +8,20 @@
     "build": "tsc -p .",
     "watch": "tsc -w -p ."
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webantic/w.app.git"
+  },
+  "author": {
+    "email": "carl@webantic.co.uk",
+    "name": "Webantic (Carl Evans)",
+    "url": "https://webantic.co.uk"
+  },
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webantic/w.app/issues"
+  },
+  "homepage": "https://github.com/webantic/w.app#readme",
   "dependencies": {
     "@types/node": "^8.0.45"
   },
