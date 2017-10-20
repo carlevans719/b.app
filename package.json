@@ -1,6 +1,6 @@
 {
   "name": "@webantic/w.app",
-  "version": "1.0.9",
+  "version": "1.0.5",
   "description": "A javascript application core",
   "main": "index",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webantic/w.app"
+    "url": "git+https://github.com/webantic/w.app.git"
   },
   "author": {
     "email": "carl@webantic.co.uk",
@@ -29,7 +29,7 @@
     "@webantic/w.providers": "^1.0.0"
   },
   "devDependencies": {
-    "npm-github-release": "^0.7.5",
+    "npm-github-release": "github:webantic/npm-github-release#02a905460b33dd68ecf6d9568bedef79a73f2d38",
     "tslint": "^5.7.0",
     "tslint-config-standard": "^6.0.1",
     "tslint-eslint-rules": "^4.1.1",
