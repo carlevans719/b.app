@@ -13,6 +13,7 @@ interface IProvider {
 
 interface IProviderEntry {
   initialised: boolean
+  default?:    boolean
   instance?:   IProvider
   Ctor:        IProviderStatic
   config:      any
@@ -34,6 +35,7 @@ interface IProviderStoreOptions {
 interface IRegisterOptions {
   allowOverwrite?: boolean
   groupName?:      string
+  default?:        boolean
   initialise?:     boolean
   config?:         IProviderEntry['config']
 }

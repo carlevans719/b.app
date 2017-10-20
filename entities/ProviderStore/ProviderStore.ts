@@ -89,14 +89,25 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
 
     const providerEntry: IProviderEntry = {
       initialised: Boolean(options.initialise),
+      default: Boolean(options.default),
       Ctor: Provider,
       config: options.config || {}
     }
+
     if (options.initialise) {
       providerEntry.instance = new Provider(this.__application, providerEntry.config)
     }
 
-    return groupStore.set(name, providerEntry)
+    const result = groupStore.set(name, providerEntry)
+
+    groupStore.forEach((key: string, entry: IProviderEntry) => {
+      if (key !== name) {
+        entry.default = false
+        groupStore.set(key, entry)
+      }
+    })
+
+    return result
   }
 
   /**
@@ -126,7 +137,7 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
    * @param {any} [config] The config to use during instantiation. Defaults to
    * the one passed during registration
    */
-  getNew (name: string = r('name'), groupName: string = this.__defaultGroupName, config?: any) {
+  getNew (name: string = r('name'), groupName: string = this.__defaultGroupName, config ?: any) {
     const groupStore = super._get(groupName)
     const providerEntry = groupStore.get(name)
 
@@ -150,7 +161,15 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
     // Look for a matching group store first, return it's first item if found
     if (super.has(name) && super._get(name).length) {
       const store = super._get(name)
-      return this.get(store.keys()[0], name)
+      let providerName: string|null = null
+
+      store.forEach((key, item) => {
+        if (item.default) {
+          providerName = key
+        }
+      })
+
+      return this.get(providerName === null ? store.keys()[0] : providerName, name)
     }
 
     // Fall back to looking for a matching provider in any group store
