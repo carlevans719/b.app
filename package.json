@@ -4,12 +4,17 @@
   "description": "A javascript application core",
   "main": "dist/index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p .",
+    "watch": "tsc -w -p ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^8.0.45",
     "b.providers": "1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.5.3"
   }
 }

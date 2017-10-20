@@ -1,10 +1,11 @@
 import * as App from './common/interfaces/application'
-import { IProviderStore } from './common/interfaces/provider'
+import { IProvider, IProviderStore } from './common/interfaces/provider'
 import { IIndexable } from './common/interfaces/decorators'
 import { InvalidParameterError } from './common/errors/InvalidParameterError'
 import { ProviderStore } from './entities/ProviderStore/ProviderStore'
 import * as types from './common/typeCheckers/application'
 import { required as r } from './common/decorators/parameters'
+
 
 class Application implements App.IApplication {
   name: string
@@ -25,7 +26,7 @@ class Application implements App.IApplication {
         const ProviderCtor = require(`b.providers/${entry[0]}`)
         this.providers.register(
           entry[0],
-          ProviderCtor,
+          'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor,
           {
             groupName: providerType,
             ...(types.isSpecialistTuple(entry) ? entry[1] : {})
@@ -59,7 +60,11 @@ class Application implements App.IApplication {
         // Manifest item is `key: {}`
         if (types.isSpecialistConfigOnly(providers)) {
           const ProviderCtor = require(`b.providers/${providerType}`)
-          this.providers.register(providerType, ProviderCtor, providers)
+          this.providers.register(
+            providerType,
+            'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor,
+            providers
+          )
           continue
         } else {
           throw new InvalidParameterError('manifest', `Value for ${providerType} was an unknown format`)

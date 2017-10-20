@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/package-lock.json": true,
+    "**/node_modules": true,
+    "**/*.js.map": { "when": "$(basename)" },
+    "**/*.js": { "when": "$(basename).ts" },
+    "*.d.ts": true,
+    "*/*.d.ts": true,
+    "*/[^i][^n][^t][^e][^r][^f][^a][^c][^e][^s]*/*.d.ts": true,
+    "*/[^i][^n][^t][^e][^r][^f][^a][^c][^e][^s]*/**/*.d.ts": true
+  }
+}

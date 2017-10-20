@@ -1,4 +1,12 @@
-import { IProvider, IProviderStatic, IProviderEntry, IProviderStore, IProviderStoreOptions, IRegisterOptions } from '../../common/interfaces/provider'
+import {
+  IProviderEntry,
+  IProviderStatic,
+  IProviderStore,
+  IProviderStoreOptions,
+  IRegisterOptions,
+  IProvider
+} from '../../common/interfaces/provider'
+
 import { IStore, IStoreOptions } from '../../common/interfaces/store'
 import { IApplication } from '../../common/interfaces/application'
 import { BaseStore } from '../BaseStore/BaseStore'
@@ -103,7 +111,7 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
     // Look for a matching group store first, return it's first item if found
     if (super.has(name) && super._get(name).length) {
       const store = super._get(name)
-      return store.get(store.keys()[0])
+      return this.get(store.keys()[0], name)
     }
     
     // Fall back to looking for a matching provider in any group store
