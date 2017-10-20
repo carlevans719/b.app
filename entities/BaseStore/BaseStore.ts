@@ -1,22 +1,25 @@
-import { IBaseStore, IStoreOptions, IStoreGetItemOptions } from '../../common/interfaces/store'
 import { IteratorCallback } from '../../common/interfaces/callbacks'
 import { IIndexable } from '../../common/interfaces/decorators'
 import { IErrorMap } from '../../common/interfaces/errors'
+import { IBaseStore, IStoreGetItemOptions, IStoreOptions } from '../../common/interfaces/store'
 
-import { StoreItemNotFoundError } from './errors/StoreItemNotFoundError'
-import { StoreItemConflictError } from './errors/StoreItemConflictError'
 import { required as r } from '../../common/decorators/parameters'
+import { StoreItemConflictError } from './errors/StoreItemConflictError'
+import { StoreItemNotFoundError } from './errors/StoreItemNotFoundError'
 
 class BaseStore <T> implements IBaseStore <T> {
+  // tslint:disable-next-line:variable-name
   protected __identifier: string
+  // tslint:disable-next-line:variable-name
   protected __store: IIndexable<T>
+  // tslint:disable-next-line:variable-name
   protected __errors: IErrorMap
 
   /**
    * Creates an instance of BaseStore.
    *
-   * @param {string} identifier 
-   * @param {any} [options] 
+   * @param {string} identifier
+   * @param {any} [options]
    * @memberof BaseStore
    */
   constructor (identifier: string = r('identifier'), options: IStoreOptions = {}) {
@@ -52,7 +55,7 @@ class BaseStore <T> implements IBaseStore <T> {
    * @memberof BaseStore
    */
   clear () {
-    for (let key of this.keys()) {
+    for (const key of this.keys()) {
       this.remove(key)
     }
   }
@@ -111,13 +114,15 @@ class BaseStore <T> implements IBaseStore <T> {
    * Calls `callback` once for each item in the store. If present, thisArg will
    * be used for the `this` value for each callback
    *
-   * @param {IteratorCallback} callback 
+   * @param {IteratorCallback} callback
    * @param {*} [thisArg]
    * @memberof BaseStore
    */
   protected _forEach (callback: IteratorCallback<T> = r('callback'), thisArg?: any) {
-    for (let key in this.__store) {
-      callback.call(thisArg, key, this.__store[key], this.__store)
+    for (const key in this.__store) {
+      if (this.__store.hasOwnProperty(key)) {
+        callback.call(thisArg, key, this.__store[key], this.__store)
+      }
     }
   }
 
@@ -142,9 +147,9 @@ class BaseStore <T> implements IBaseStore <T> {
   /**
    * Add an item to the Store
    *
-   * @param {string} key 
-   * @param {T} value 
-   * @param {boolean} [allowOverwrite=false] 
+   * @param {string} key
+   * @param {T} value
+   * @param {boolean} [allowOverwrite=false]
    * @throws {ConflictError} if a different item with the same key exists, and
    * `allowOverwrite` is not `true`
    * @memberof BaseStore
@@ -160,7 +165,7 @@ class BaseStore <T> implements IBaseStore <T> {
   /**
    * Register the Error classes for this instance
    *
-   * @param {IStoreOptions} [options] 
+   * @param {IStoreOptions} [options]
    * @memberof BaseStore
    */
   private _registerErrors (options: IStoreOptions = {}) {

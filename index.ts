@@ -1,11 +1,10 @@
-import * as App from './common/interfaces/application'
-import { IProvider, IProviderStore, IRegisterOptions } from './common/interfaces/provider'
-import { IIndexable } from './common/interfaces/decorators'
-import { InvalidParameterError } from './common/errors/InvalidParameterError'
-import { ProviderStore } from './entities/ProviderStore/ProviderStore'
-import * as types from './common/typeCheckers/application'
 import { required as r } from './common/decorators/parameters'
-
+import { InvalidParameterError } from './common/errors/InvalidParameterError'
+import * as App from './common/interfaces/application'
+import { IIndexable } from './common/interfaces/decorators'
+import { IProvider, IProviderStore, IRegisterOptions } from './common/interfaces/provider'
+import * as types from './common/typeCheckers/application'
+import { ProviderStore } from './entities/ProviderStore/ProviderStore'
 
 class Application implements App.IApplication {
   name: string
@@ -43,44 +42,46 @@ class Application implements App.IApplication {
       }
     }
 
-    for (let providerType in manifest) {
-      const providers = manifest[providerType]
+    for (const providerType in manifest) {
+      if (manifest.hasOwnProperty(providerType)) {
+        const providers = manifest[providerType]
 
-      // Manifest item is `key: ['String', {}]` or `key: ['String']`
-      if (types.isSpecialistUnion(providers)) {
-        registerUnion(providerType, providers)
-        continue
-      }
-
-      // Manifest item is `key: [['String'] or ['String', {}]]
-      if (types.isSpecialistUnionArray(providers)) {
-        providers.forEach((entry, idx) => registerUnion(providerType, entry))
-        continue
-      }
-
-      try {
-        // Manifest item is `key: {}`
-        if (types.isSpecialistConfigOnly(providers)) {
-          let ProviderCtor = require(`b.providers/entities/${providerType}`)
-          ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
-          
-          const base: IRegisterOptions = {}
-          if (ProviderCtor.groupName) {
-            base.groupName = ProviderCtor.groupName
-          }
-
-          const providerConfig = Object.assign(base, providers)
-          this.providers.register(providerType, ProviderCtor, providerConfig)
-
+        // Manifest item is `key: ['String', {}]` or `key: ['String']`
+        if (types.isSpecialistUnion(providers)) {
+          registerUnion(providerType, providers)
           continue
-        } else {
-          throw new InvalidParameterError('manifest', `Value for ${providerType} was an unknown format`)
         }
-      } catch (ex) {
-        if (resumeOnError) {
-          console.error(ex.message)
-        } else {
-          throw ex
+
+        // Manifest item is `key: [['String'] or ['String', {}]]
+        if (types.isSpecialistUnionArray(providers)) {
+          providers.forEach((entry, idx) => registerUnion(providerType, entry))
+          continue
+        }
+
+        try {
+          // Manifest item is `key: {}`
+          if (types.isSpecialistConfigOnly(providers)) {
+            let ProviderCtor = require(`b.providers/entities/${providerType}`)
+            ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
+
+            const base: IRegisterOptions = {}
+            if (ProviderCtor.groupName) {
+              base.groupName = ProviderCtor.groupName
+            }
+
+            const providerConfig = Object.assign(base, providers)
+            this.providers.register(providerType, ProviderCtor, providerConfig)
+
+            continue
+          } else {
+            throw new InvalidParameterError('manifest', `Value for ${providerType} was an unknown format`)
+          }
+        } catch (ex) {
+          if (resumeOnError) {
+            console.error(ex.message)
+          } else {
+            throw ex
+          }
         }
       }
     }

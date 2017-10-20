@@ -2,7 +2,7 @@
   "name": "w.app",
   "version": "1.0.0",
   "description": "A javascript application core",
-  "main": "dist/index",
+  "main": "index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p .",
@@ -11,12 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^8.0.45",
-    "tslint-config-standard": "^6.0.1",
-    "w.providers": "1.0.0"
+    "@types/node": "^8.0.45"
   },
   "devDependencies": {
     "tslint": "^5.7.0",
+    "tslint-config-standard": "^6.0.1",
     "tslint-eslint-rules": "^4.1.1",
     "typescript": "^2.5.3"
   }

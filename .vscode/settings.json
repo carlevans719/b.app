@@ -12,8 +12,8 @@
     // hide all .d.ts files except those in /*/interfaces/
     "*.d.ts": true,
     "*/*.d.ts": true,
-    "*/[^i][^n][^t][^e][^r][^f][^a][^c][^e][^s]*/*.d.ts": true,
-    "*/[^i][^n][^t][^e][^r][^f][^a][^c][^e][^s]*/**/*.d.ts": true
+    "*/[^i]*/*.d.ts": true,
+    "*/[^i]*/**/*.d.ts": true
   },
   "tslint.autoFixOnSave": true
 }
