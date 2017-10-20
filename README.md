@@ -52,12 +52,17 @@ to add providers later:
 
 ### Getting providers
 
+Unless `{initialise: true}` is passed during provider registration, the provider will only be instantiated when it is first requested with `.get()` or `.getNew()`. To get an instance, use one of these methods. The `.get()` method will return a cached instance, the `.getNew()` method will return a new instance (and allow you to specify a config override).
+
   ```js
   import { Application } from 'w.app'
   const app = new Application('my-first-app', {ConsoleLogger: {}})
 
   const logger = app.get('ConsoleLogger')
   logger.log('Hello, world!')
+
+  const otherLogger = app.getNew('ConsoleLogger')
+  otherLogger.log('Hello again, world!')
   ```
 
 ## Using provider groups

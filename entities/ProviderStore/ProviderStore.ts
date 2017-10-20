@@ -117,6 +117,26 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
   }
 
   /**
+   * Get a new instance of a provider
+   *
+   * @param {string} name The provider name
+   * @param {string} [groupName=this.__defaultGroupName] The group name
+   * @param {any} [config] The config to use during instantiation. Defaults to
+   * the one passed during registration
+   */
+  getNew (name: string = r('name'), groupName: string = this.__defaultGroupName, config?: any) {
+    const groupStore = super._get(groupName)
+    const providerEntry = groupStore.get(name)
+
+    if (!providerEntry.initialised) {
+      providerEntry.instance = new providerEntry.Ctor(this.__application, providerEntry.config)
+      groupStore.set(name, providerEntry, true)
+    }
+
+    return new providerEntry.Ctor(this.__application, config || providerEntry.config)
+  }
+
+  /**
    * Search for a group store with the given name and return its first
    * item. If a group store isn't found with the given name, search all
    * group stores for a Provider with a matching name

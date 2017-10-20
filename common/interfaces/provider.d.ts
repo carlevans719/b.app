@@ -19,6 +19,7 @@ interface IProviderEntry {
 interface IProviderStore {
   // (protected) __application: IApplication
   get (name: string, groupName: string, options: IStoreGetItemOptions): IProvider
+  getNew (name: string, groupName: string, options: IStoreGetItemOptions, config?: any): IProvider
 
   find (name: string): IProvider|null
   register (name: string, ProviderCtor: IProviderStatic, options?: IRegisterOptions) : void
