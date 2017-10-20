@@ -1,6 +1,7 @@
 import { IProviderStore } from './provider'
 
 interface IApplication {
+  name: string
   providers: IProviderStore
 }
 

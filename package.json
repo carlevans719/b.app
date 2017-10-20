@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^8.0.45"
+    "@types/node": "^8.0.45",
+    "b.providers": "1.0.0"
   }
 }

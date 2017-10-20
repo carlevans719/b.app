@@ -38,6 +38,15 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
     if (typeof options.defaultGroupName !== 'undefined') {
       this.__defaultGroupName = options.defaultGroupName
     }
+
+    this._getOrCreateGroupStore(this.__defaultGroupName)
+  }
+
+  get length () {
+    let count = 0
+    super._forEach((groupName, groupStore) => count += groupStore.length)
+
+    return count
   }
 
   /**
@@ -71,15 +80,46 @@ class ProviderStore extends BaseStore <IStore<IProviderEntry>> implements IProvi
    * @memberof ProviderStore
    */
   get (name: string = r('name'), groupName: string = this.__defaultGroupName) {
-    const groupStore = super._get(groupName)
+    const groupStore = super._get(groupName || name)
     const providerEntry = groupStore.get(name)
 
-    if (typeof providerEntry.initialised === 'undefined') {
+    if (!providerEntry.initialised) {
       providerEntry.instance = new providerEntry.Ctor(this.__application, providerEntry.config)
       groupStore.set(name, providerEntry, true)
     }
 
     return <IProvider>providerEntry.instance
+  }
+
+  /**
+   * Search for a group store with the given name and return its first
+   * item. If a group store isn't found with the given name, search all
+   * group stores for a Provider with a matching name
+   *
+   * @param {string} name The group store or Provider name
+   * @returns {IProvider}
+   */
+  find (name: string = r('name')) : IProvider {
+    // Look for a matching group store first, return it's first item if found
+    if (super.has(name) && super._get(name).length) {
+      const store = super._get(name)
+      return store.get(store.keys()[0])
+    }
+    
+    // Fall back to looking for a matching provider in any group store
+    let found: IProvider|undefined = undefined
+
+    super._forEach((groupName, groupStore) => {
+      if (!found && groupStore.has(name)) {
+        found = this.get(name, groupName)
+      }
+    })
+
+    if (typeof found === 'undefined') {
+      throw new this.__errors.ItemNotFoundError(name)
+    }
+
+    return found
   }
 
   /**

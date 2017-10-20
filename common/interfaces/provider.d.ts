@@ -20,6 +20,7 @@ interface IProviderStore {
   // (protected) __application: IApplication
   get (name: string, groupName: string, options: IStoreGetItemOptions): IProvider
 
+  find (name: string): IProvider|null
   register (name: string, ProviderCtor: IProviderStatic, options?: IRegisterOptions) : void
 }
 
