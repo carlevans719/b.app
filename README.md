@@ -35,7 +35,13 @@ to add providers when instantiating the application:
     ConsoleLogger: {initialise: false, config: {}}
   }
 
-  const app = new Application('my-first-app', providerManifest)
+  const options = {
+    // if the app core fails to register a provider, tell it to
+    // resume processing others (instead of throwing)
+    resumeOnError: true
+  }
+
+  const app = new Application('my-first-app', providerManifest, options)
   ```
 
 to add providers later:
@@ -47,7 +53,7 @@ to add providers later:
   const app = new Application('my-first-app')
 
   // (identifier, constructor, registrationOptions)
-  app.providers.register('ConsoleLogger', ConsoleLogger, {initialise: false, config: {}})
+  app.providers.register('ConsoleLogger', ConsoleLogger, {initialise: false, config: {namespace: 'module1'}})
   ```
 
 ### Getting providers

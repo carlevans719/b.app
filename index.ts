@@ -12,7 +12,9 @@ class Application implements App.IApplication {
   providers: IProviderStore
 
   constructor (name: string = r('name'), manifest: App.IProviderManifestEntry = {}, options: App.IOptions = {}) {
+    this.name = name
     this.providers = new ProviderStore(this)
+
     this._processProviderManifest(manifest, options.resumeOnError)
   }
 
