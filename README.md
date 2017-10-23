@@ -1,4 +1,4 @@
-# w.app
+# @webantic/w.app
 
 A module which serves as an application core that orchestrates DI and module loading for feature providers.
 
@@ -7,12 +7,12 @@ A module which serves as an application core that orchestrates DI and module loa
 
 Install the module:
 
-  `npm i --save w.app`
+  `npm i --save @webantic/w.app`
 
 Include it in your application's entry point:
 
   ```js
-  import { Application } from 'w.app'
+  import { Application } from '@webantic/w.app'
 
   const app = new Application('my-first-app')
   ```
@@ -26,7 +26,7 @@ You can either add providers when you instantiate the application, or at a later
 to add providers when instantiating the application:
 
   ```js
-  import { Application } from 'w.app'
+  import { Application } from '@webantic/w.app'
 
   const providerManifest = {
     // key is the provider identifier, value is options for the
@@ -41,8 +41,8 @@ to add providers when instantiating the application:
 to add providers later:
 
   ```js
-  import { Application } from 'w.app'
-  import ConsoleLogger from 'w.providers/ConsoleLogger'
+  import { Application } from '@webantic/w.app'
+  import ConsoleLogger from '@webantic/w.providers/ConsoleLogger'
 
   const app = new Application('my-first-app')
 
@@ -55,7 +55,7 @@ to add providers later:
 Unless `{initialise: true}` is passed during provider registration, the provider will only be instantiated when it is first requested with `.get()` or `.getNew()`. To get an instance, use one of these methods. The `.get()` method will return a cached instance, the `.getNew()` method will return a new instance (and allow you to specify a config override).
 
   ```js
-  import { Application } from 'w.app'
+  import { Application } from '@webantic/w.app'
   const app = new Application('my-first-app', {ConsoleLogger: {}})
 
   const logger = app.get('ConsoleLogger')
@@ -82,7 +82,7 @@ Most providers will specify what group they belong to, however you can override 
 To register a provider inside a group, use the group name as the manifest keys. If you are registering later, specify the group name in the registration options.
 
   ```js
-  import { Application } from 'w.app'
+  import { Application } from '@webantic/w.app'
 
   const providerManifest = {
     // key is the group name. the value is a tuple - first element is the
@@ -120,7 +120,7 @@ The above approaches require you to know the specific provider which has been lo
 If a group called "logger" cannot be found, the `.find()` method will search **all** groups for a provider with the matching name. For example:
 
   ```js
-  import { Application } from 'w.app'
+  import { Application } from '@webantic/w.app'
   const app = new Application('my-first-app', {
     fooGroup: [
       ['ProviderA'],
