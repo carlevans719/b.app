@@ -26,13 +26,22 @@ class Application implements App.IApplication {
     const registerUnion = (providerType: string, entry: App.SpecialistUnion) => {
       try {
         let ProviderCtor = require(`@webantic/w.providers/entities/${entry[0]}`)
-        ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
+        ProviderCtor = ProviderCtor.default ? ProviderCtor.default : ProviderCtor
+
+        const base = Object.assign(
+          {},
+          types.isSpecialistTuple(entry) ? entry[1] : {}
+        )
+
+        if (ProviderCtor.groupName) {
+          base.groupName = ProviderCtor.groupName
+        }
 
         this.providers.register(
           entry[0],
           ProviderCtor,
           {
-            ...(types.isSpecialistTuple(entry) ? entry[1] : {}),
+            ...base,
             groupName: providerType
           }
         )
@@ -65,7 +74,7 @@ class Application implements App.IApplication {
           // Manifest item is `key: {}`
           if (types.isSpecialistConfigOnly(providers)) {
             let ProviderCtor = require(`@webantic/w.providers/entities/${providerType}`)
-            ProviderCtor = 'default' in ProviderCtor ? ProviderCtor.default : ProviderCtor
+            ProviderCtor = ProviderCtor.default ? ProviderCtor.default : ProviderCtor
 
             const base: IRegisterOptions = {}
             if (ProviderCtor.groupName) {
