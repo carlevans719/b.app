@@ -1,7 +1,7 @@
-import { IteratorCallback } from '../../common/interfaces/callbacks'
-import { IIndexable } from '../../common/interfaces/decorators'
-import { IErrorMap } from '../../common/interfaces/errors'
-import { IBaseStore, IStoreGetItemOptions, IStoreOptions } from '../../common/interfaces/store'
+import { IteratorCallback } from '@webantic/w.interfaces/callbacks'
+import { IIndexable } from '@webantic/w.interfaces/decorators'
+import { IErrorMap } from '@webantic/w.interfaces/errors'
+import { IBaseStore, IStoreGetItemOptions, IStoreOptions } from '@webantic/w.interfaces/stores'
 
 import { required as r } from '../../common/decorators/parameters'
 import { StoreItemConflictError } from './errors/StoreItemConflictError'

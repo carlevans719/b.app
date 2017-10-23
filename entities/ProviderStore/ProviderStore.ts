@@ -1,4 +1,4 @@
-import { IApplication } from '../../common/interfaces/application'
+import { IApplication } from '@webantic/w.interfaces/application'
 import {
   IProvider,
   IProviderEntry,
@@ -6,8 +6,8 @@ import {
   IProviderStore,
   IProviderStoreOptions,
   IRegisterOptions
-} from '../../common/interfaces/provider'
-import { IStore, IStoreOptions } from '../../common/interfaces/store'
+} from '@webantic/w.interfaces/providers'
+import { IStore, IStoreOptions } from '@webantic/w.interfaces/stores'
 
 import { required as r } from '../../common/decorators/parameters'
 import { BaseStore } from '../BaseStore/BaseStore'

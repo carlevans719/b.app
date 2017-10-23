@@ -1,6 +1,6 @@
-import * as App from './common/interfaces/application'
-import { IIndexable } from './common/interfaces/decorators'
-import { IProvider, IProviderStore, IRegisterOptions } from './common/interfaces/provider'
+import { Application as App } from '@webantic/w.interfaces'
+import { IIndexable } from '@webantic/w.interfaces/decorators'
+import { IProvider, IProviderStore, IRegisterOptions } from '@webantic/w.interfaces/providers'
 
 import { required as r } from './common/decorators/parameters'
 import { InvalidParameterError } from './common/errors/InvalidParameterError'

@@ -1,5 +1,5 @@
-import { IteratorCallback } from '../../common/interfaces/callbacks'
-import { IBaseStore, IStore, IStoreGetItemOptions, IStoreOptions } from '../../common/interfaces/store'
+import { IteratorCallback } from '@webantic/w.interfaces/callbacks'
+import { IBaseStore, IStore, IStoreGetItemOptions, IStoreOptions } from '@webantic/w.interfaces/stores'
 
 import { required as r } from '../../common/decorators/parameters'
 import { BaseStore } from '../BaseStore/BaseStore'
