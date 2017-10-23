@@ -4,6 +4,7 @@ import { IProvider, IProviderStore, IRegisterOptions } from '@webantic/w.interfa
 
 import { required as r } from './common/decorators/parameters'
 import { InvalidParameterError } from './common/errors/InvalidParameterError'
+import { ModuleNotFoundError } from './common/errors/ModuleNotFoundError'
 import * as types from './common/typeCheckers/application'
 import { ProviderStore } from './entities/ProviderStore/ProviderStore'
 
@@ -30,6 +31,9 @@ class Application implements App.IApplication {
         //   ProviderCtor = require(`${entry[0]}`)
         // }
         ProviderCtor = ProviderCtor.default ? ProviderCtor.default : ProviderCtor
+        if (typeof ProviderCtor !== 'function') {
+          throw new ModuleNotFoundError(providerType)
+        }
 
         const base = {
           ... (types.isSpecialistTuple(entry) ? entry[1] : {})
@@ -80,6 +84,9 @@ class Application implements App.IApplication {
             //   ProviderCtor = require(`${providerType}`)
             // }
             ProviderCtor = ProviderCtor.default ? ProviderCtor.default : ProviderCtor
+            if (typeof ProviderCtor !== 'function') {
+              throw new ModuleNotFoundError(providerType)
+            }
 
             const base: IRegisterOptions = {}
             if (ProviderCtor.groupName) {
