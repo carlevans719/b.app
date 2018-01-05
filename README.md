@@ -129,14 +129,18 @@ If a group called "logger" cannot be found, the `.find()` method will search **a
   import { Application } from '@webantic/w.app'
   const app = new Application('my-first-app', {
     fooGroup: [
-      ['ProviderA'],
-      ['ProviderB']
+      ['ProviderA' /* {initialise: false, config: {}} */],
+      ['ProviderB' /* {initialise: false, config: {}} */]
     ]
   })
 
   // first look for a group called "ProviderA", then look in all groups for a Provider called "ProviderA"
   app.providers.find('ProviderA') // returns ProviderA
+  // first look for a group called "ProviderB", then look in all groups for a Provider called "ProviderB"
   app.providers.find('ProviderB') // returns ProviderB
+  
+  // first look for a group called "fooGroup", then look in all groups for a Provider called "fooGroup"
+  // NOTE: this time, a matching group will be found, so the first Provider in that group will be returned
   app.providers.find('fooGroup') // returns ProviderA
   ```
 
